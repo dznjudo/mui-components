@@ -1,22 +1,15 @@
 # React Component Library
 
-[![Build status](https://badge.buildkite.com/90ff98db996bb137c5be1bdce666c4b1ce68a25b17af0a6a04.svg?branch=master)](https://buildkite.com/harvey/react-component-library)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-
 This project skeleton was created to help people get started with creating their own React component library using:
 
 - [Rollup](https://github.com/rollup/rollup)
-- [Sass](https://sass-lang.com/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Material-UI](https://mui.com/)
 
 It also features:
 
 - [Storybook](https://storybook.js.org/) to help you create and show off your components
 - [Jest](https://jestjs.io/) and [React Testing Library](https://github.com/testing-library/react-testing-library) enabling testing of the components
-
-[**Read my blog post about why and how I created this project skeleton ▸**](https://blog.harveydelaney.com/creating-your-own-react-component-library/)
-
-[Check out this CodeSandbox to see the component library in action ▸](https://codesandbox.io/s/harvey-component-library-example-y2b60)
 
 ## Development
 
@@ -47,30 +40,6 @@ npm run storybook:export
 ```
 
 You can then serve the files under `storybook-static` using S3, GitHub pages, Express etc. I've hosted this library at: https://www.harveydelaney.com/react-component-library
-
-### Generating New Components
-
-I've included a handy NodeJS util file under `util` called `create-component.js`. Instead of copy pasting components to create a new component, you can instead run this command to generate all the files you need to start building out a new component. To use it:
-
-```
-npm run generate YourComponentName
-```
-
-This will generate:
-
-```
-/src
-  /YourComponentName
-    YourComponentName.tsx
-    YourComponentName.stories.tsx
-    YourComponentName.test.tsx
-    YourComponentName.types.ts
-    YourComponentName.scss
-```
-
-The default templates for each file can be modified under `util/templates`.
-
-Don't forget to add the component to your `index.ts` exports if you want the library to export the component!
 
 ### Installing Component Library Locally
 
@@ -170,43 +139,6 @@ export default App;
 
 [Check out this Code Sandbox for a live example.](https://codesandbox.io/s/harvey-component-library-example-y2b60?file=/src/App.js)
 
-### Using Component Library SASS Variables
-
-I've found that it's helpful to export SASS variables to projects consuming the library. As such, I've added the `rollup-plugin-copy` NPM package and used it to copy the [`src/typography.scss`](src/typography.scss) and [`variables.scss`](src/variables.scss) into the `build` directory as part of the Rollup bundle process. This allows you to use these variables in your projects consuming the component library.
-
-For example, let's say you installed `harvey-component-library` into your project. To use the exported variables/mixins, in a SASS file you would do the following:
-
-```Sass
-@import '~harvey-component-library/build/typography';
-
-.example-container {
-    @include heading;
-
-    color: $harvey-white;
-}
-```
-
-## Additional Help
-
-### Dark Mode
-
-The example component `TestComponent` respects the user's dark mode operating system preferences and renders the component in the appropriate theme.
-
-This is achieved by using the media query: `@media (prefers-color-scheme: dark)` in combination with CSS variables. The colours that change depending on dark mode preference can be found in [`src/variables.scss`](src/variables.scss). Example usage of these variables can be found within [`src/TestComponent/TestComponent.scss`](src/TestComponent/TestComponent.scss).
-
-Read https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme for more details.
-
-### Using Alternatives to Sass
-
-#### Less or Stylus
-
-The Rollup plugin `rollup-plugin-postcss` supports Sass, Less and Stylus:
-
-- For Stylus, install stylus: `yarn add stylus --dev`
-- For Less, install less: `yarn add less --dev`
-
-You can then remove `node-sass` from your dependencies.
-
 #### CSS Modules
 
 If you want to use CSS Modules, update `postcss` in `rollup-config.js` to:
@@ -268,33 +200,3 @@ export const ImageComponent = () => (
   </div>
 );
 ```
-
-### Supporting JSON Imports
-
-Add the following library to your component library [@rollup/plugin-json](https://github.com/rollup/plugins/tree/master/packages/json):
-
-```
-npm i -D @rollup/plugin-json
-```
-
-Then add it to `rollup-config.js`:
-
-```
-...
-plugins:[
-  ...,
-  json(),
-  ...
-]
-...
-```
-
-You can then import and use JSON as ES6 Modules:
-
-```tsx
-import data from "./some-data.json";
-
-export const JsonDataComponent = () => <div>{data.description}</div>;
-```
-
-Checkout the [official Rollup plugin list](https://github.com/rollup/plugins) for additional helpful plugins.
